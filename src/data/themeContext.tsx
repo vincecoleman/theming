@@ -1,25 +1,42 @@
 import { createContext, useState } from "react";
-import tenant1Theme from "../themes/tenant1.theme";
-import tenant2Theme from "../themes/tenant2.theme";
+import { defaultTheme } from "react-native-whirlwind/dist/theme";
+import CompHealthTheme from "../themes/compHealth.theme";
+import DefaultTheme from "../themes/defaultTheme";
+import { ITheme } from "../themes/themes.types";
+import weatherbyTheme from "../themes/weatherby.theme";
 
 interface IThemeContext {
-  theme: typeof tenant1Theme;
-  toggleTheme: () => void;
+  theme: ITheme;
+  selectTheme: (theme: IThemes) => void;
 }
 
 const ThemeContext = createContext<IThemeContext>({
-  theme: tenant1Theme,
-  toggleTheme: () => {},
+  theme: DefaultTheme,
+  selectTheme: (theme: IThemes) => {
+    throw new Error("Provider is not initialized");
+  },
 });
 
+export type IThemes = "default" | "compHealth" | "weatherBy";
+
 export const ThemeContextProvider = ({ children }) => {
-  const [theme, setTheme] = useState(tenant1Theme);
-  const toggleTheme = () =>{
-    setTheme(theme === tenant1Theme ? tenant2Theme : tenant1Theme)
-  }
+  const [theme, setTheme] = useState(DefaultTheme);
+
+  const selectTheme = (theme: IThemes) => {
+    switch (theme) {
+      case "default":
+        setTheme(DefaultTheme);
+        break;
+      case "compHealth":
+        setTheme(CompHealthTheme);
+        break;
+      case "weatherBy" :
+        setTheme(weatherbyTheme)
+    }
+  };
 
   return (
-    <ThemeContext.Provider value={{ theme, toggleTheme }}>
+    <ThemeContext.Provider value={{ theme, selectTheme }}>
       {children}
     </ThemeContext.Provider>
   );

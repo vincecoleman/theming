@@ -1,16 +1,11 @@
-import { useContext } from "react";
-import { Button as RNButton, View } from "react-native";
-import ThemeContext from "../data/themeContext";
+import { Button as RNButton} from "react-native";
 
-const Button = (props: { title: string; onPress: () => void }) => {
-  const { theme } = useContext(ThemeContext);
+const Button = (props: { title: string; onPress: () => void }) => {;
   return (
-
-      <RNButton
-        title={props.title}
-        onPress={props.onPress}
-        color={theme.textError.color}
-      />
+    <RNButton
+      title={props.title}
+      onPress={props.onPress}
+    />
   );
 };
 
